@@ -1,0 +1,126 @@
+{% extends 'appointments/base.html' %}
+{% block title %}About Us — Wasafi Beauty Salon{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-label">Our Story</span>
+    <h1 class="section-title">About Wasafi Beauty Salon</h1>
+    <div class="divider-rose"></div>
+    <p class="text-muted">Serving the people of Bomet Town with passion, skill, and care.</p>
+  </div>
+</section>
+
+<!-- Story -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="section-label">Who We Are</span>
+        <h2 class="section-title mb-3">Beauty Experts You Can Trust</h2>
+        <div class="divider-rose"></div>
+        <p class="text-muted mb-3">
+          Wasafi Beauty Salon is Bomet Town's leading beauty destination, offering world-class hair, nail, skin, makeup, and spa services in a warm and welcoming environment. Our name <em>Wasafi</em> — meaning <em>clean</em> and <em>fresh</em> in Swahili — reflects our commitment to hygiene, quality, and excellence.
+        </p>
+        <p class="text-muted mb-3">
+          We understand that looking good is more than just appearance — it's about confidence, self-care, and feeling your absolute best. Our team of trained and passionate beauty professionals is dedicated to helping every client leave looking and feeling transformed.
+        </p>
+        <p class="text-muted">
+          From walk-in treatments to fully customized beauty packages, Wasafi offers affordable, high-quality services designed to suit every budget and style.
+        </p>
+      </div>
+      <div class="col-lg-6">
+        <div style="background:linear-gradient(135deg,var(--wasafi-blush),#e5c4b5);border-radius:24px;padding:3rem;text-align:center">
+          <i class="bi bi-scissors" style="font-size:5rem;color:var(--wasafi-rose);opacity:.5"></i>
+          <h4 style="font-family:var(--font-display);margin-top:1rem">Established in Bomet Town</h4>
+          <p class="text-muted small">Proudly serving our community with premium beauty services and modern technology.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="py-5" style="background:var(--wasafi-cream)">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Our Values</span>
+      <h2 class="section-title">What We Stand For</h2>
+      <div class="divider-rose mx-auto"></div>
+    </div>
+    <div class="row g-4">
+
+      <div class="col-md-4">
+        <div class="card h-100 border-0" style="border-radius:16px">
+          <div class="card-body p-4 text-center">
+            <div style="font-size:2.5rem;color:var(--wasafi-rose);margin-bottom:1rem"><i class="bi bi-award"></i></div>
+            <h5>Quality First</h5>
+            <p class="text-muted small">We use only premium, skin-safe products and modern equipment to ensure the highest standards in every treatment.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0" style="border-radius:16px">
+          <div class="card-body p-4 text-center">
+            <div style="font-size:2.5rem;color:var(--wasafi-rose);margin-bottom:1rem"><i class="bi bi-heart"></i></div>
+            <h5>Client Care</h5>
+            <p class="text-muted small">Every client is treated like family. We listen, advise, and deliver personalized beauty experiences tailored to your needs.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0" style="border-radius:16px">
+          <div class="card-body p-4 text-center">
+            <div style="font-size:2.5rem;color:var(--wasafi-rose);margin-bottom:1rem"><i class="bi bi-shield-check"></i></div>
+            <h5>Hygiene & Safety</h5>
+            <p class="text-muted small">Our salon upholds the highest hygiene standards. All tools are sterilized and workstations sanitized between every client.</p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- Team -->
+{% if stylists %}
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Meet the Team</span>
+      <h2 class="section-title">Our Expert Stylists</h2>
+      <div class="divider-rose mx-auto"></div>
+    </div>
+    <div class="row g-4 justify-content-center">
+      {% for stylist in stylists %}
+      <div class="col-lg-3 col-md-4 col-6 text-center">
+        {% if stylist.photo %}
+          <img src="{{ stylist.photo.url }}" class="rounded-circle mb-3" style="width:120px;height:120px;object-fit:cover;border:4px solid var(--wasafi-blush)" alt="{{ stylist.name }}">
+        {% else %}
+          <div style="width:120px;height:120px;background:var(--wasafi-blush);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2.5rem;color:var(--wasafi-rose)">
+            <i class="bi bi-person-fill"></i>
+          </div>
+        {% endif %}
+        <h6 class="mb-0 fw-bold">{{ stylist.name }}</h6>
+        <p class="small text-muted mb-1">{{ stylist.specialization }}</p>
+        {% if stylist.bio %}<p class="small text-muted">{{ stylist.bio|truncatewords:12 }}</p>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- CTA -->
+<section style="background:linear-gradient(135deg,var(--wasafi-rose),#b57168);padding:4rem 0;text-align:center">
+  <div class="container">
+    <h2 style="font-family:var(--font-display);color:#fff;font-size:2rem;margin-bottom:.8rem">Ready to Experience Wasafi?</h2>
+    <p style="color:rgba(255,255,255,.85);margin-bottom:2rem">Book your appointment today and let us take care of you.</p>
+    <a href="{% url 'book_appointment' %}" class="btn btn-gold px-5 py-2">
+      <i class="bi bi-calendar-check me-2"></i>Book Appointment
+    </a>
+  </div>
+</section>
+
+{% endblock %}

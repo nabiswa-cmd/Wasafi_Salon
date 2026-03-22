@@ -1,0 +1,1081 @@
+
+{% extends 'appointments/base.html' %}
+
+{% block title %}Book an Appointment — Wasafi Beauty Salon{% endblock %}
+
+{% block extra_css %}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --rose:    #C8556A;
+    --rose-lt: #E8A0AD;
+    --gold:    #B8962E;
+    --cream:   #FAF6F1;
+    --blush:   #F5E6E8;
+    --ink:     #1C1218;
+    --muted:   #7A6870;
+    --white:   #FFFFFF;
+    --shadow:  0 8px 40px rgba(200,85,106,.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+  }
+
+  /* ── HERO ─────────────────────────────── */
+  .booking-hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1C1218 0%, #2e1924 50%, #1C1218 100%);
+    padding: 80px 0 60px;
+    text-align: center;
+  }
+
+  .booking-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(200,85,106,.22) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 70%, rgba(184,150,46,.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--rose-lt);
+    border: 1px solid rgba(200,85,106,.4);
+    border-radius: 100px;
+    padding: 6px 18px;
+    margin-bottom: 20px;
+    animation: fadeUp .6s ease both;
+  }
+
+  .booking-hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.6rem, 5vw, 4rem);
+    font-weight: 300;
+    color: #fff;
+    letter-spacing: -.01em;
+    line-height: 1.1;
+    animation: fadeUp .7s .1s ease both;
+  }
+
+  .booking-hero h1 em {
+    font-style: italic;
+    color: var(--rose-lt);
+  }
+
+  .divider-rose {
+    width: 48px; height: 2px;
+    background: linear-gradient(90deg, var(--rose), var(--gold));
+    margin: 20px auto;
+    border-radius: 2px;
+    animation: fadeUp .6s .2s ease both;
+  }
+
+  .booking-hero p {
+    color: rgba(255,255,255,.55);
+    font-size: .95rem;
+    animation: fadeUp .6s .3s ease both;
+  }
+
+  /* ── LAYOUT ───────────────────────────── */
+  .booking-section {
+    padding: 60px 0 80px;
+  }
+
+  .booking-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 32px;
+    align-items: start;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  @media (max-width: 900px) {
+    .booking-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── CARD ─────────────────────────────── */
+  .glass-card {
+    background: var(--white);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    animation: fadeUp .5s .2s ease both;
+  }
+
+  .card-header-band {
+    background: linear-gradient(135deg, var(--rose) 0%, #a8374d 100%);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .card-header-band .icon-ring {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .card-header-band h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.35rem;
+    color: #fff;
+  }
+
+  .card-header-band p {
+    font-size: .78rem;
+    color: rgba(255,255,255,.7);
+    margin-top: 1px;
+  }
+
+  .card-body {
+    padding: 36px 32px;
+  }
+
+  /* ── ALERT ────────────────────────────── */
+  .alert-login {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #EEF6FF;
+    border-left: 4px solid #3B82F6;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 28px;
+    font-size: .88rem;
+    color: #1e40af;
+    animation: fadeUp .4s ease both;
+  }
+
+  .alert-login a {
+    color: var(--rose);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  /* ── FORM FIELDS ──────────────────────── */
+  .field-group {
+    margin-bottom: 22px;
+  }
+
+  .field-group label {
+    display: block;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .field-group label .req {
+    color: var(--rose);
+    margin-left: 2px;
+  }
+
+  /* Override Django widget styles */
+  .field-group select,
+  .field-group input[type="date"],
+  .field-group input[type="time"],
+  .field-group textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid #E8DDE0;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .93rem;
+    color: var(--ink);
+    background: var(--cream);
+    transition: border-color .25s, box-shadow .25s, background .25s;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .field-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23C8556A' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+    cursor: pointer;
+  }
+
+  .field-group select:focus,
+  .field-group input:focus,
+  .field-group textarea:focus {
+    border-color: var(--rose);
+    box-shadow: 0 0 0 4px rgba(200,85,106,.1);
+    background: var(--white);
+  }
+
+  .field-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .field-group .errorlist {
+    list-style: none;
+    margin-top: 6px;
+    font-size: .8rem;
+    color: #e53e3e;
+  }
+
+  .row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 520px) {
+    .row-2 { grid-template-columns: 1fr; }
+    .card-body { padding: 24px 20px; }
+  }
+
+  /* ── M-PESA NOTE ──────────────────────── */
+  .mpesa-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #F0FDF4;
+    border: 1px solid #86EFAC;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: .83rem;
+    color: #166534;
+    margin-top: 8px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height .4s ease, opacity .3s ease, padding .3s ease;
+  }
+
+  .mpesa-note.visible {
+    max-height: 80px;
+    opacity: 1;
+  }
+
+  /* ── SUMMARY ──────────────────────────── */
+  .booking-summary {
+    background: linear-gradient(135deg, var(--blush) 0%, #fceef0 100%);
+    border: 1px solid rgba(200,85,106,.15);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height .5s ease, opacity .4s ease, padding .4s ease;
+  }
+
+  .booking-summary.visible {
+    max-height: 200px;
+    opacity: 1;
+  }
+
+  .booking-summary h6 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--rose);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sum-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .85rem;
+    padding: 4px 0;
+    border-bottom: 1px dashed rgba(200,85,106,.15);
+  }
+
+  .sum-row:last-child { border-bottom: none; }
+  .sum-row span { color: var(--muted); }
+  .sum-row strong { color: var(--ink); }
+
+  /* ── SUBMIT BUTTON ────────────────────── */
+  .btn-book {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--rose) 0%, #a8374d 100%);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .95rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s, opacity .2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-book::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+    transition: left .5s ease;
+  }
+
+  .btn-book:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,85,106,.35); }
+  .btn-book:hover::before { left: 140%; }
+  .btn-book:active { transform: translateY(0); }
+
+  .btn-login {
+    display: block;
+    text-align: center;
+    padding: 16px;
+    background: transparent;
+    border: 2px solid var(--rose);
+    border-radius: 14px;
+    color: var(--rose);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .2s, color .2s, transform .2s;
+  }
+
+  .btn-login:hover {
+    background: var(--rose);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  /* ── STATUS PANELS ────────────────────── */
+  .status-panel {
+    text-align: center;
+    padding: 24px;
+    border-radius: 16px;
+    margin-top: 20px;
+    display: none;
+  }
+
+  .status-panel.loading {
+    background: #EEF2FF;
+  }
+
+  .status-panel.success {
+    background: #F0FDF4;
+  }
+
+  .status-panel.error {
+    background: #FFF5F5;
+  }
+
+  .status-panel .status-icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .status-panel h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+  }
+
+  .status-panel p {
+    font-size: .88rem;
+    color: var(--muted);
+  }
+
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid rgba(200,85,106,.2);
+    border-top-color: var(--rose);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 14px;
+  }
+
+  /* ── INFO CARDS ───────────────────────── */
+  .info-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+    animation: fadeUp .5s .4s ease both;
+  }
+
+  @media (max-width: 600px) {
+    .info-cards { grid-template-columns: 1fr; }
+  }
+
+  .info-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 18px 14px;
+    text-align: center;
+    border: 1px solid rgba(200,85,106,.1);
+    transition: transform .25s, box-shadow .25s;
+  }
+
+  .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+  .info-card .ic-icon {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .info-card p {
+    font-size: .8rem;
+    font-weight: 500;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ── SIDEBAR ──────────────────────────── */
+  .sidebar-card {
+    background: var(--white);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    position: sticky;
+    top: 80px;
+    animation: fadeUp .5s .35s ease both;
+  }
+
+  .sidebar-banner {
+    background: linear-gradient(135deg, #1C1218, #2e1924);
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sidebar-banner::after {
+    content: '✦';
+    position: absolute;
+    right: 16px; bottom: -8px;
+    font-size: 5rem;
+    color: rgba(200,85,106,.12);
+    line-height: 1;
+  }
+
+  .sidebar-banner h5 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+
+  .sidebar-banner p {
+    font-size: .75rem;
+    color: rgba(255,255,255,.5);
+  }
+
+  .sidebar-body {
+    padding: 24px;
+  }
+
+  .hours-list {
+    list-style: none;
+  }
+
+  .hours-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    font-size: .875rem;
+    border-bottom: 1px solid #F0E8EA;
+  }
+
+  .hours-list li:last-child { border-bottom: none; }
+
+  .hours-list .day { color: var(--muted); }
+
+  .hours-list .time {
+    font-weight: 600;
+    color: var(--ink);
+    font-size: .82rem;
+  }
+
+  .hours-list .badge-open {
+    font-size: .65rem;
+    background: #DCFCE7;
+    color: #16a34a;
+    border-radius: 100px;
+    padding: 2px 8px;
+    font-weight: 600;
+  }
+
+  .sidebar-divider {
+    height: 1px;
+    background: #F0E8EA;
+    margin: 16px 0;
+  }
+
+  .sidebar-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .sidebar-info-item .si-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--blush);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .9rem;
+    flex-shrink: 0;
+    color: var(--rose);
+  }
+
+  .sidebar-info-item .si-label {
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+
+  .sidebar-info-item .si-value {
+    font-size: .88rem;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .sidebar-info-item a {
+    color: var(--rose);
+    text-decoration: none;
+  }
+
+  /* ── ANIMATIONS ───────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  /* Step progress */
+  .step-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 36px;
+    animation: fadeUp .5s .15s ease both;
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    flex: 1;
+    max-width: 120px;
+  }
+
+  .step-dot {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 2px solid #E8DDE0;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem;
+    font-weight: 700;
+    color: var(--muted);
+    transition: all .3s ease;
+    z-index: 1;
+    position: relative;
+  }
+
+  .step.active .step-dot {
+    background: var(--rose);
+    border-color: var(--rose);
+    color: #fff;
+    box-shadow: 0 0 0 6px rgba(200,85,106,.15);
+  }
+
+  .step.done .step-dot {
+    background: #10b981;
+    border-color: #10b981;
+    color: #fff;
+  }
+
+  .step-label {
+    font-size: .68rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-weight: 600;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .step.active .step-label { color: var(--rose); }
+  .step.done .step-label { color: #10b981; }
+
+  .step-line {
+    flex: 1;
+    height: 2px;
+    background: #E8DDE0;
+    max-width: 60px;
+    margin-bottom: 22px;
+    transition: background .4s ease;
+  }
+
+  .step-line.done { background: #10b981; }
+
+  /* Field focus pulse */
+  .field-group input:focus,
+  .field-group select:focus,
+  .field-group textarea:focus {
+    animation: fieldPulse .3s ease;
+  }
+
+  @keyframes fieldPulse {
+    0%  { transform: scale(1); }
+    50% { transform: scale(1.005); }
+    100% { transform: scale(1); }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="booking-hero">
+  <div>
+    <span class="hero-badge">✦ Wasafi Beauty Salon</span>
+    <h1>Reserve Your <em>Moment</em></h1>
+    <div class="divider-rose"></div>
+    <p>Fill in the form below — we'll confirm your appointment shortly.</p>
+  </div>
+</section>
+
+<section class="booking-section">
+  <div class="booking-grid">
+
+    <!-- MAIN FORM COLUMN -->
+    <div>
+
+      <!-- Step Progress -->
+      <div class="step-progress" id="stepProgress">
+        <div class="step active" id="step1">
+          <div class="step-dot">1</div>
+          <span class="step-label">Service</span>
+        </div>
+        <div class="step-line" id="line1"></div>
+        <div class="step" id="step2">
+          <div class="step-dot">2</div>
+          <span class="step-label">Schedule</span>
+        </div>
+        <div class="step-line" id="line2"></div>
+        <div class="step" id="step3">
+          <div class="step-dot">3</div>
+          <span class="step-label">Payment</span>
+        </div>
+        <div class="step-line" id="line3"></div>
+        <div class="step" id="step4">
+          <div class="step-dot">4</div>
+          <span class="step-label">Confirm</span>
+        </div>
+      </div>
+
+      <!-- CARD -->
+      <div class="glass-card">
+        <div class="card-header-band">
+          <div class="icon-ring"><i class="bi bi-calendar-heart-fill"></i></div>
+          <div>
+            <h4>Appointment Details</h4>
+            <p>Complete all fields to secure your booking</p>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          {% if not user.is_authenticated %}
+          <div class="alert-login">
+            <i class="bi bi-info-circle-fill" style="font-size:1.1rem;flex-shrink:0"></i>
+            <div>Please <a href="{% url 'login' %}?next={% url 'book_appointment' %}">log in</a> or <a href="{% url 'register' %}">create an account</a> to book.</div>
+          </div>
+          {% endif %}
+
+          <form id="booking-form" method="post" novalidate>
+            {% csrf_token %}
+
+            <!-- Service -->
+            <div class="field-group" id="fg-service">
+              <label>Service <span class="req">*</span></label>
+              {{ form.service }}
+              {{ form.service.errors }}
+            </div>
+
+            <!-- Stylist -->
+            <div class="field-group" id="fg-stylist">
+              <label>Preferred Stylist <span class="req">*</span></label>
+              {{ form.stylist }}
+              {{ form.stylist.errors }}
+            </div>
+
+            <!-- Date & Time -->
+            <div class="row-2">
+              <div class="field-group" id="fg-date">
+                <label>Date <span class="req">*</span></label>
+                {{ form.appointment_date }}
+                {{ form.appointment_date.errors }}
+              </div>
+              <div class="field-group" id="fg-time">
+                <label>Time <span class="req">*</span></label>
+                {{ form.appointment_time }}
+                {{ form.appointment_time.errors }}
+              </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="field-group" id="fg-payment">
+              <label>Payment Method <span class="req">*</span></label>
+              {{ form.payment_method }}
+              {{ form.payment_method.errors }}
+              <div class="mpesa-note" id="mpesa-note">
+                <i class="bi bi-phone-fill"></i>
+                You will receive an M-Pesa STK push on your registered phone.
+              </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="field-group">
+              <label>Additional Notes</label>
+              {{ form.notes }}
+            </div>
+
+            <!-- Booking Summary -->
+            <div class="booking-summary" id="booking-summary">
+              <h6><i class="bi bi-receipt"></i> Booking Summary</h6>
+              <div class="sum-row">
+                <span>Service</span>
+                <strong id="sum-service">—</strong>
+              </div>
+              <div class="sum-row">
+                <span>Stylist</span>
+                <strong id="sum-stylist">—</strong>
+              </div>
+              <div class="sum-row">
+                <span>Date</span>
+                <strong id="sum-date">—</strong>
+              </div>
+              <div class="sum-row">
+                <span>Time</span>
+                <strong id="sum-time">—</strong>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            {% if user.is_authenticated %}
+            <button type="submit" class="btn-book" id="submitBtn">
+              <i class="bi bi-calendar-check-fill me-2"></i> Confirm Booking
+            </button>
+            {% else %}
+            <a href="{% url 'login' %}" class="btn-login">
+              <i class="bi bi-box-arrow-in-right me-2"></i> Login to Book
+            </a>
+            {% endif %}
+
+          </form>
+
+          <!-- Loading -->
+          <div class="status-panel loading" id="loading">
+            <div class="spinner"></div>
+            <h3 style="color:#4f46e5">Waiting for Payment…</h3>
+            <p>Please complete the M-Pesa prompt on your phone.</p>
+          </div>
+
+          <!-- Success -->
+          <div class="status-panel success" id="success">
+            <span class="status-icon">🎉</span>
+            <h3 style="color:#16a34a">Booking Confirmed!</h3>
+            <p>Your appointment has been booked. A confirmation SMS is on its way.</p>
+          </div>
+
+          <!-- Error -->
+          <div class="status-panel error" id="error">
+            <span class="status-icon">😔</span>
+            <h3 style="color:#dc2626">Payment Failed</h3>
+            <p>Something went wrong. Please try again.</p>
+            <button onclick="location.reload()" class="btn-book" style="margin-top:14px;max-width:200px;margin-left:auto;margin-right:auto">
+              Try Again
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Info Cards -->
+      <div class="info-cards">
+        <div class="info-card">
+          <span class="ic-icon" style="color:var(--rose)">✅</span>
+          <p>Instant confirmation via SMS alert</p>
+        </div>
+        <div class="info-card">
+          <span class="ic-icon" style="color:var(--gold)">🔄</span>
+          <p>Free cancellation 24 hrs before appointment</p>
+        </div>
+        <div class="info-card">
+          <span class="ic-icon" style="color:#16a34a">🔒</span>
+          <p>Secure M-Pesa payment guaranteed</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div>
+      <div class="sidebar-card">
+        <div class="sidebar-banner">
+          <h5>Wasafi Beauty Salon</h5>
+          <p>Your beauty, our passion ✦</p>
+        </div>
+        <div class="sidebar-body">
+
+          <ul class="hours-list">
+            <li>
+              <span class="day">Mon – Fri</span>
+              <span class="time">8:00 AM – 7:00 PM <span class="badge-open">Open</span></span>
+            </li>
+            <li>
+              <span class="day">Saturday</span>
+              <span class="time">8:00 AM – 7:00 PM <span class="badge-open">Open</span></span>
+            </li>
+            <li>
+              <span class="day">Sunday</span>
+              <span class="time">10:00 AM – 5:00 PM</span>
+            </li>
+          </ul>
+
+          <div class="sidebar-divider"></div>
+
+          <div class="sidebar-info-item">
+            <div class="si-icon"><i class="bi bi-geo-alt-fill"></i></div>
+            <div>
+              <div class="si-label">Location</div>
+              <div class="si-value">Bomet Town, Bomet County, Kenya</div>
+            </div>
+          </div>
+
+          <div class="sidebar-info-item">
+            <div class="si-icon"><i class="bi bi-telephone-fill"></i></div>
+            <div>
+              <div class="si-label">Call Us</div>
+              <div class="si-value">
+                <a href="tel:+254700000000">+254 7XX XXX XXX</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-info-item">
+            <div class="si-icon"><i class="bi bi-whatsapp"></i></div>
+            <div>
+              <div class="si-label">WhatsApp</div>
+              <div class="si-value">
+                <a href="https://wa.me/254700000000" target="_blank">Chat with us</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-divider"></div>
+
+          <!-- Live date/time widget -->
+          <div style="background:var(--blush);border-radius:14px;padding:14px 16px;text-align:center">
+            <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;color:var(--muted);margin-bottom:4px">Current Time</div>
+            <div id="live-time" style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--rose);letter-spacing:.03em">--:-- --</div>
+            <div id="live-date" style="font-size:.78rem;color:var(--muted)">Loading…</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+// ─── LIVE CLOCK ──────────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const hh = h % 12 || 12;
+  const mm = m.toString().padStart(2, '0');
+  document.getElementById('live-time').textContent = `${hh}:${mm} ${ampm}`;
+
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('live-date').textContent =
+    `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+
+// ─── STEP PROGRESS ───────────────────────────────────────
+const serviceEl = document.getElementById('id_service');
+const stylistEl = document.getElementById('id_stylist');
+const dateEl    = document.getElementById('id_appointment_date');
+const timeEl    = document.getElementById('id_appointment_time');
+const payEl     = document.getElementById('id_payment_method');
+
+function setStep(n) {
+  for (let i = 1; i <= 4; i++) {
+    const s = document.getElementById(`step${i}`);
+    s.classList.remove('active', 'done');
+    if (i < n) s.classList.add('done');
+    else if (i === n) s.classList.add('active');
+  }
+  for (let i = 1; i <= 3; i++) {
+    const l = document.getElementById(`line${i}`);
+    l.classList.toggle('done', i < n);
+  }
+}
+
+function evalStep() {
+  const hasService  = serviceEl?.value;
+  const hasStylest  = stylistEl?.value;
+  const hasDate     = dateEl?.value;
+  const hasTime     = timeEl?.value;
+  const hasPayment  = payEl?.value;
+
+  if (hasPayment) { setStep(4); return; }
+  if (hasDate && hasTime) { setStep(3); return; }
+  if (hasService && hasStylest) { setStep(2); return; }
+  setStep(1);
+}
+
+[serviceEl, stylistEl, dateEl, timeEl, payEl].forEach(el => el?.addEventListener('change', evalStep));
+
+
+// ─── LIVE BOOKING SUMMARY ─────────────────────────────────
+const summaryEl = document.getElementById('booking-summary');
+
+function updateSummary() {
+  const svc  = serviceEl?.options[serviceEl.selectedIndex]?.text  || '—';
+  const styl = stylistEl?.options[stylistEl.selectedIndex]?.text  || '—';
+  const dt   = dateEl?.value  || '—';
+  const tm   = timeEl?.options[timeEl.selectedIndex]?.text || '—';
+
+  document.getElementById('sum-service').textContent = svc;
+  document.getElementById('sum-stylist').textContent = styl;
+  document.getElementById('sum-date').textContent    = dt;
+  document.getElementById('sum-time').textContent    = tm;
+
+  const hasAny = (serviceEl?.value || dateEl?.value || timeEl?.value);
+  summaryEl.classList.toggle('visible', !!hasAny);
+  evalStep();
+}
+
+[serviceEl, stylistEl, dateEl, timeEl].forEach(el => el?.addEventListener('change', updateSummary));
+
+
+// ─── M-PESA NOTE ──────────────────────────────────────────
+const mpesaNote = document.getElementById('mpesa-note');
+payEl?.addEventListener('change', () => {
+  mpesaNote.classList.toggle('visible', payEl.value === 'M-Pesa');
+  evalStep();
+});
+
+
+// ─── FORM SUBMIT ──────────────────────────────────────────
+const form      = document.getElementById('booking-form');
+const submitBtn = document.getElementById('submitBtn');
+const loadingEl = document.getElementById('loading');
+const successEl = document.getElementById('success');
+const errorEl   = document.getElementById('error');
+
+form?.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  // animate button
+  if (submitBtn) {
+    submitBtn.textContent = 'Processing…';
+    submitBtn.disabled = true;
+  }
+
+  form.style.opacity = '.4';
+  form.style.pointerEvents = 'none';
+  loadingEl.style.display = 'block';
+
+  fetch('', { method: 'POST', body: new FormData(form) })
+    .then(r => r.json())
+    .then(data => {
+      if (data.status === 'waiting') {
+        pollPayment(data.appointment_id);
+      } else if (data.status === 'success') {
+        showSuccess();
+      } else {
+        showError();
+      }
+    })
+    .catch(showError);
+});
+
+function pollPayment(id) {
+  let tries = 0;
+  const iv = setInterval(() => {
+    tries++;
+    if (tries > 40) { clearInterval(iv); showError(); return; }
+    fetch(`/check-payment/${id}/`)
+      .then(r => r.json())
+      .then(d => {
+        if (d.status === 'paid')   { clearInterval(iv); showSuccess(); }
+        if (d.status === 'failed') { clearInterval(iv); showError(); }
+      });
+  }, 3000);
+}
+
+function showSuccess() {
+  loadingEl.style.display = 'none';
+  successEl.style.display = 'block';
+}
+
+function showError() {
+  loadingEl.style.display = 'none';
+  errorEl.style.display   = 'block';
+  if (submitBtn) { submitBtn.textContent = 'Confirm Booking'; submitBtn.disabled = false; }
+  form.style.opacity = '1';
+  form.style.pointerEvents = 'auto';
+}
+</script>
+{% endblock %}

@@ -1,0 +1,192 @@
+{% extends 'appointments/base.html' %}
+
+{% block title %}My Dashboard — Wasafi Beauty Salon{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col">
+        <span class="section-label">Customer Portal</span>
+        <h1 class="section-title">Welcome back, {{ user.first_name }} </h1>
+        <div class="divider-rose"></div>
+        <p class="text-muted">Manage your appointments and profile from here.</p>
+      </div>
+      <div class="col-auto">
+        <a href="{% url 'book_appointment' %}" class="btn btn-wasafi">
+          <i class="bi bi-plus-circle me-2"></i>New Booking
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5" style="background:var(--wasafi-cream)">
+  <div class="container">
+
+    <!-- Stats Row -->
+    <div class="row g-4 mb-5">
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--wasafi-blush)">
+            <i class="bi bi-calendar-check" style="color:var(--wasafi-rose)"></i>
+          </div>
+          <div class="stat-number">{{ total_appointments }}</div>
+          <div class="small text-muted mt-1">Total Bookings</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#D1E7DD">
+            <i class="bi bi-check-circle" style="color:#0A3622"></i>
+          </div>
+          <div class="stat-number">{{ completed_appointments }}</div>
+          <div class="small text-muted mt-1">Completed</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#FFF3CD">
+            <i class="bi bi-clock" style="color:#856404"></i>
+          </div>
+          <div class="stat-number">{{ upcoming.count }}</div>
+          <div class="small text-muted mt-1">Upcoming</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#E8D5F5">
+            <i class="bi bi-person-circle" style="color:#6f42c1"></i>
+          </div>
+          <div class="stat-number">⭐</div>
+          <div class="small text-muted mt-1">VIP Member</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <!-- Upcoming Appointments -->
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm" style="border-radius:20px">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h5 style="font-family:var(--font-display)" class="mb-0">
+                <i class="bi bi-calendar-event me-2" style="color:var(--wasafi-rose)"></i>My Appointments
+              </h5>
+              <a href="{% url 'book_appointment' %}" class="btn btn-wasafi btn-sm px-3">
+                <i class="bi bi-plus me-1"></i>Book New
+              </a>
+            </div>
+
+            {% if appointments %}
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead>
+                  <tr style="font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:#888">
+                    <th>Service</th>
+                    <th>Date & Time</th>
+                    <th>Stylist</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for appt in appointments %}
+                  <tr>
+                    <td>
+                      <div class="fw-600" style="font-size:.9rem">{{ appt.service.name }}</div>
+                      <div class="small text-muted">KSh {{ appt.service.price }}</div>
+                    </td>
+                    <td>
+                      <div class="small fw-500">{{ appt.appointment_date|date:"D, d M Y" }}</div>
+                      <div class="small text-muted">{{ appt.appointment_time|time:"g:i A" }}</div>
+                    </td>
+                    <td class="small">{{ appt.stylist.name|default:"Any Stylist" }}</td>
+                    <td>
+                      <span class="status-badge {% if appt.payment_status == 'paid' %}status-confirmed{% else %}status-pending{% endif %}">
+                        {{ appt.get_payment_status_display }}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="status-badge status-{{ appt.status }}">
+                        {{ appt.get_status_display }}
+                      </span>
+                    </td>
+                    <td>
+                      {% if appt.status in 'pending confirmed' %}
+                      <a href="{% url 'cancel_appointment' appt.pk %}"
+                         class="btn btn-sm btn-outline-danger rounded-pill px-2"
+                         onclick="return confirm('Cancel this appointment?')">
+                        <i class="bi bi-x"></i>
+                      </a>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+              <i class="bi bi-calendar-x" style="font-size:3rem;color:var(--wasafi-rose);opacity:.4"></i>
+              <h6 class="mt-3 text-muted">No appointments yet</h6>
+              <p class="small text-muted">Book your first appointment and get pampered!</p>
+              <a href="{% url 'book_appointment' %}" class="btn btn-wasafi mt-2">Book Now</a>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-lg-4">
+
+        <!-- Profile Card -->
+        <div class="card border-0 shadow-sm mb-4" style="border-radius:20px">
+          <div class="card-body p-4 text-center">
+            <div style="width:72px;height:72px;background:var(--wasafi-blush);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.8rem;color:var(--wasafi-rose)">
+              <i class="bi bi-person-fill"></i>
+            </div>
+            <h6 class="mb-0 fw-bold">{{ user.get_full_name|default:user.username }}</h6>
+            <p class="small text-muted mb-1">{{ user.email }}</p>
+            {% if user.profile.phone %}
+            <p class="small text-muted mb-3"><i class="bi bi-telephone me-1"></i>{{ user.profile.phone }}</p>
+            {% endif %}
+            <a href="{% url 'profile' %}" class="btn btn-wasafi-outline btn-sm px-4">
+              <i class="bi bi-pencil me-1"></i>Edit Profile
+            </a>
+          </div>
+        </div>
+
+        <!-- Next Appointment -->
+        {% if upcoming %}
+        <div class="card border-0 shadow-sm" style="border-radius:20px;background:linear-gradient(135deg,var(--wasafi-rose),#b57168);color:#fff">
+          <div class="card-body p-4">
+            <h6 class="mb-3" style="color:#fff;font-family:var(--font-display);font-size:1rem">
+              <i class="bi bi-calendar-heart me-2"></i>Next Appointment
+            </h6>
+            {% with appt=upcoming.first %}
+            <div class="fw-bold fs-5 mb-1">{{ appt.service.name }}</div>
+            <div class="small mb-1"><i class="bi bi-calendar3 me-1"></i>{{ appt.appointment_date|date:"D, d M Y" }}</div>
+            <div class="small"><i class="bi bi-clock me-1"></i>{{ appt.appointment_time|time:"g:i A" }}</div>
+            {% if appt.stylist %}<div class="small mt-1"><i class="bi bi-person me-1"></i>{{ appt.stylist.name }}</div>{% endif %}
+            {% endwith %}
+          </div>
+        </div>
+        {% else %}
+        <div class="card border-0 shadow-sm" style="border-radius:20px">
+          <div class="card-body p-4 text-center">
+            <i class="bi bi-stars fs-2" style="color:var(--wasafi-gold)"></i>
+            <p class="small text-muted mt-2 mb-3">No upcoming appointments. Treat yourself today!</p>
+            <a href="{% url 'book_appointment' %}" class="btn btn-wasafi btn-sm w-100">Book Now</a>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

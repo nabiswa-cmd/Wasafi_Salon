@@ -1,0 +1,405 @@
+{% extends 'appointments/base.html' %}
+
+{% block title %}Wasafi Beauty Salon — Bomet Town | Book Your Appointment{% endblock %}
+
+{% block content %}
+{%load static %}
+<style>
+/* HERO FLOATING SHAPE */
+#typing-text::after {
+  content: "|";
+  margin-left: 5px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.hero-image-wrap > div {
+  animation: floatBlob 6s ease-in-out infinite;
+}
+
+@keyframes floatBlob {
+  0%   { transform: translateY(0px) scale(1); }
+  50%  { transform: translateY(-20px) scale(1.03); }
+  100% { transform: translateY(0px) scale(1); }
+}
+
+/* FLOATING CARDS */
+.floating-card {
+  position: absolute;
+  padding: 10px 14px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  font-size: 0.85rem;
+  animation: floatCard 4s ease-in-out infinite;
+}
+
+.floating-card.top-left {
+  top: 20px;
+  left: 0;
+  animation-delay: 0s;
+}
+
+.floating-card.bottom-right {
+  bottom: 20px;
+  right: 0;
+  animation-delay: 2s;
+}
+
+@keyframes floatCard {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+</style>
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero-section">
+  <div class="container position-relative">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        
+        <div class="hero-badge">
+          <i class="bi bi-star-fill"></i> #1 Beauty Salon in Bomet Town
+        </div>
+        <h1 class="hero-title mb-3">
+          Discover Your<br><em  id="typing-text">True Beauty</em><br>With Us
+        </h1>
+        <p class="hero-subtitle mb-4">
+          Professional hair, nail, skin, and beauty services tailored just for you.
+          Book your appointment online in seconds  no waiting, no hassle.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="{% url 'book_appointment' %}" class="btn btn-wasafi px-4">
+            <i class="bi bi-calendar-check me-2"></i>Book Appointment
+          </a>
+          <a href="{% url 'services' %}" class="btn btn-wasafi-outline px-4">
+            Explore Services
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-num">500+</div>
+            <div class="hero-stat-label">Happy Clients</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">20+</div>
+            <div class="hero-stat-label">Services</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">5★</div>
+            <div class="hero-stat-label">Average Rating</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 d-none d-lg-block">
+        <div class="hero-image-wrap text-center">
+          <!-- Decorative hero illustration -->
+          <div style="width:420px;height:440px;background:linear-gradient(145deg,#e8c5b8,#f5ddd5);border-radius:60% 40% 50% 50% / 50% 50% 40% 60%;margin:0 auto;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px rgba(200,132,122,.25)">
+            
+              <img src="{% static 'images/salonicon.png' %}" class="img-fit" alt="salonicons">
+            
+          </div>
+          <!-- Floating info cards -->
+          <div class="floating-card top-left">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-check-circle-fill text-success"></i>
+              <span>Instant Confirmation</span>
+            </div>
+          </div>
+          <div class="floating-card bottom-right">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-shield-check-fill" style="color:var(--wasafi-rose)"></i>
+              <span>M-Pesa Payments</span>
+            </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ WHY CHOOSE US ══════════════ -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="row g-4 text-center">
+      {% for icon, title, desc in feature_list %}
+      <div class="col-md-3 col-6">
+        <div class="p-3">
+          <div style="width:56px;height:56px;background:var(--wasafi-blush);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.4rem;color:var(--wasafi-rose)">
+            <i class="bi bi-{{ icon }}"></i>
+          </div>
+          <h6 class="fw-700 mb-1">{{ title }}</h6>
+          <p class="small text-muted mb-0">{{ desc }}</p>
+        </div>
+      </div>
+      {% empty %}
+      {% for item in features %}
+      <div class="col-md-3 col-6">
+        <div class="p-3">
+          <div style="width:56px;height:56px;background:var(--wasafi-blush);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.4rem;color:var(--wasafi-rose)">
+            <i class="bi bi-{{ item.icon }}"></i>
+          </div>
+          <h6 class="fw-bold mb-1">{{ item.title }}</h6>
+          <p class="small text-muted mb-0">{{ item.desc }}</p>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-md-3 col-6">
+        <div class="p-3">
+          <div style="width:56px;height:56px;background:var(--wasafi-blush);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.4rem;color:var(--wasafi-rose)"><i class="bi bi-calendar-check"></i></div>
+          <h6 class="fw-bold mb-1">Easy Booking</h6>
+          <p class="small text-muted mb-0">Book appointments online 24/7, anytime from anywhere.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="p-3">
+          <div style="width:56px;height:56px;background:var(--wasafi-blush);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.4rem;color:var(--wasafi-rose)"><i class="bi bi-phone"></i></div>
+          <h6 class="fw-bold mb-1">M-Pesa Payment</h6>
+          <p class="small text-muted mb-0">Pay conveniently via M-Pesa — fast, safe, and easy.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="p-3">
+          <div style="width:56px;height:56px;background:var(--wasafi-blush);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.4rem;color:var(--wasafi-rose)"><i class="bi bi-person-check"></i></div>
+          <h6 class="fw-bold mb-1">Expert Stylists</h6>
+          <p class="small text-muted mb-0">Trained professionals dedicated to bringing out your best look.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="p-3">
+          <div style="width:56px;height:56px;background:var(--wasafi-blush);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.4rem;color:var(--wasafi-rose)"><i class="bi bi-bell"></i></div>
+          <h6 class="fw-bold mb-1">Instant Alerts</h6>
+          <p class="small text-muted mb-0">Get SMS and system notifications for your appointments.</p>
+        </div>
+      </div>
+      {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ SERVICES ══════════════ -->
+<section class="py-5" style="background:var(--wasafi-cream)">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">What We Offer</span>
+      <h2 class="section-title">Our Premium Services</h2>
+      <div class="divider-rose mx-auto"></div>
+      <p class="text-muted mx-auto" style="max-width:480px">
+        From hair styling to nail art and skin treatments we offer a full range of beauty services for every occasion.
+      </p>
+    </div>
+    <div class="row g-4">
+      {% for service in services %}
+      <div class="col-lg-4 col-md-6">
+        <div class="card service-card h-100">
+          <div class="card-body text-center p-4">
+            <div class="service-icon">
+              {% if service.category == 'hair' %}<i class="bi bi-scissors"></i>
+              {% elif service.category == 'nails' %}<i class="bi bi-heart"></i>
+              {% elif service.category == 'skin' %}<i class="bi bi-droplet"></i>
+              {% elif service.category == 'massage' %}<i class="bi bi-flower1"></i>
+              {% elif service.category == 'makeup' %}<i class="bi bi-stars"></i>
+              {% else %}<i class="bi bi-gem"></i>{% endif %}
+            </div>
+            <h5 class="mb-2">{{ service.name }}</h5>
+            <p class="text-muted small mb-3">{{ service.description|truncatewords:15 }}</p>
+            <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+              <span class="price-badge">KSh {{ service.price }}</span>
+              <span class="duration-tag"><i class="bi bi-clock me-1"></i>{{ service.duration_minutes }} min</span>
+            </div>
+            <a href="{% url 'book_appointment' %}?service={{ service.pk }}" class="btn btn-wasafi btn-sm px-4">
+              Book This Service
+            </a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <!-- Placeholder when no services in DB yet -->
+      {% for s in "123456" %}
+      <div class="col-lg-4 col-md-6">
+        <div class="card service-card h-100">
+          <div class="card-body text-center p-4">
+            <div class="service-icon"><i class="bi bi-scissors"></i></div>
+            <h5 class="mb-2">Sample Service</h5>
+            <p class="text-muted small mb-3"> Add your salon services through the admin panel.</p>
+            <span class="price-badge">KSh 500</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+      <a href="{% url 'services' %}" class="btn btn-wasafi-outline px-5">View All Services</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ HOW IT WORKS ══════════════ -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Simple Process</span>
+      <h2 class="section-title">Book in 3 Easy Steps</h2>
+      <div class="divider-rose mx-auto"></div>
+    </div>
+    <div class="row g-4 text-center">
+      <div class="col-md-4">
+        <div class="position-relative">
+          <div style="width:64px;height:64px;background:var(--wasafi-rose);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;color:#fff;font-size:1.5rem;font-family:var(--font-display);font-weight:700">1</div>
+          <h5>Choose a Service</h5>
+          <p class="text-muted small">Browse our wide range of beauty and salon services and pick what suits you.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div>
+          <div style="width:64px;height:64px;background:var(--wasafi-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;color:#fff;font-size:1.5rem;font-family:var(--font-display);font-weight:700">2</div>
+          <h5>Select Date & Time</h5>
+          <p class="text-muted small">Pick your preferred appointment date and time slot that works for you.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div>
+          <div style="width:64px;height:64px;background:var(--wasafi-charcoal);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;color:#fff;font-size:1.5rem;font-family:var(--font-display);font-weight:700">3</div>
+          <h5>Confirm & Pay</h5>
+          <p class="text-muted small">Pay via M-Pesa or choose to pay at the salon. Receive instant confirmation.</p>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <a href="{% url 'book_appointment' %}" class="btn btn-wasafi px-5">
+        <i class="bi bi-calendar2-check me-2"></i>Book Now — It's Free
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ OUR TEAM ══════════════ -->
+{% if stylists %}
+<section class="py-5" style="background:var(--wasafi-cream)">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Meet the Experts</span>
+      <h2 class="section-title">Our Talented Stylists</h2>
+      <div class="divider-rose mx-auto"></div>
+    </div>
+    <div class="row g-4 justify-content-center">
+      {% for stylist in stylists %}
+      <div class="col-lg-3 col-md-4 col-6 text-center">
+        <div class="stylist-card">
+          {% if stylist.photo %}
+            <img src="{{ stylist.photo.url }}" alt="{{ stylist.name }}" class="stylist-img mb-3">
+          {% else %}
+            <div class="stylist-placeholder mb-3">
+              <i class="bi bi-person-circle"></i>
+            </div>
+          {% endif %}
+          <h6 class="mb-0">{{ stylist.name }}</h6>
+          <p class="small text-muted">{{ stylist.specialization }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ══════════════ TESTIMONIALS ══════════════ -->
+{% if testimonials %}
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Client Love</span>
+      <h2 class="section-title">What Our Clients Say</h2>
+      <div class="divider-rose mx-auto"></div>
+    </div>
+    <div class="row g-4">
+      {% for t in testimonials %}
+      <div class="col-lg-3 col-md-6">
+        <div class="testimonial-card">
+          <div class="star-rating mb-2">
+            {% for i in "12345" %}
+              {% if forloop.counter <= t.rating %}
+                <i class="bi bi-star-fill"></i>
+              {% else %}
+                <i class="bi bi-star"></i>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <p class="small mb-3">"{{ t.message|truncatewords:25 }}"</p>
+          <div class="testimonial-author">— {{ t.customer_name }}</div>
+          {% if t.service %}<div class="small text-muted">{{ t.service.name }}</div>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ══════════════ CTA BANNER ══════════════ -->
+<section style="background:linear-gradient(135deg,var(--wasafi-dark) 0%,var(--wasafi-charcoal) 100%);padding:4rem 0">
+  <div class="container text-center">
+    <h2 class="section-title" style="color:#fff;font-size:2.2rem">
+      Ready to Look & Feel Amazing?
+    </h2>
+    <p style="color:#d4c5be;margin-bottom:2rem;max-width:480px;margin-left:auto;margin-right:auto">
+      Book your appointment today and experience the Wasafi difference. Walk in beautiful, walk out extraordinary.
+    </p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="{% url 'book_appointment' %}" class="btn btn-wasafi px-5">
+        <i class="bi bi-calendar-check me-2"></i>Book Appointment
+      </a>
+      <a href="{% url 'contact' %}" class="btn btn-wasafi-outline px-5" style="border-color:#fff;color:#fff">
+        <i class="bi bi-whatsapp me-2"></i>Contact Us
+      </a>
+    </div>
+  </div>
+</section>
+<script>
+const texts = [
+  "True Beauty",
+  "Perfect Style",
+  "Glow & Shine",
+  "Elegant Look"
+];
+
+let index = 0;
+let charIndex = 0;
+let isDeleting = false;
+
+function typeLoop() {
+  const element = document.getElementById("typing-text");
+  const current = texts[index];
+
+  if (!isDeleting) {
+    // typing
+    charIndex++;
+    element.textContent = current.substring(0, charIndex);
+
+    if (charIndex === current.length) {
+      isDeleting = true;
+      setTimeout(typeLoop, 1500); // pause after full text
+      return;
+    }
+  } else {
+    // deleting everything
+    charIndex--;
+    element.textContent = current.substring(0, charIndex);
+
+    if (charIndex === 0) {
+      isDeleting = false;
+      index = (index + 1) % texts.length;
+    }
+  }
+
+  setTimeout(typeLoop, isDeleting ? 40 : 80);
+}
+
+typeLoop();
+</script>
+{% endblock %}

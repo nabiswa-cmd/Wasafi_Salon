@@ -1,0 +1,176 @@
+[
+  {
+    "model": "appointments.service",
+    "pk": 1,
+    "fields": {
+      "name": "Hair Wash & Blowout",
+      "category": "hair",
+      "description": "Professional hair wash, conditioning treatment, and blowout styling for silky smooth results.",
+      "price": "800.00",
+      "duration_minutes": 60,
+      "image": "",
+      "is_active": true,
+      "created_at": "2024-01-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "appointments.service",
+    "pk": 2,
+    "fields": {
+      "name": "Hair Braiding",
+      "category": "hair",
+      "description": "Expert braiding in a variety of styles — cornrows, box braids, micro braids, and more.",
+      "price": "1500.00",
+      "duration_minutes": 120,
+      "image": "",
+      "is_active": true,
+      "created_at": "2024-01-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "appointments.service",
+    "pk": 3,
+    "fields": {
+      "name": "Relaxer Treatment",
+      "category": "hair",
+      "description": "Chemical relaxer treatment to straighten and smoothen natural hair, followed by deep conditioning.",
+      "price": "1200.00",
+      "duration_minutes": 90,
+      "image": "",
+      "is_active": true,
+      "created_at": "2024-01-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "appointments.service",
+    "pk": 4,
+    "fields": {
+      "name": "Manicure",
+      "category": "nails",
+      "description": "Classic manicure including nail shaping, cuticle care, hand massage, and nail polish of your choice.",
+      "price": "600.00",
+      "duration_minutes": 45,
+      "image": "",
+      "is_active": true,
+      "created_at": "2024-01-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "appointments.service",
+    "pk": 5,
+    "fields": {
+      "name": "Pedicure",
+      "category": "nails",
+      "description": "Relaxing foot soak, exfoliation, nail shaping, cuticle treatment, foot massage, and polish.",
+      "price": "700.00",
+      "duration_minutes": 60,
+      "image": "",
+      "is_active": true,
+      "created_at": "2024-01-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "appointments.service",
+    "pk": 6,
+    "fields": {
+      "name": "Gel Nails",
+      "category": "nails",
+      "description": "Long-lasting gel nail application with a wide range of colours. Includes nail shaping and art design.",
+      "price": "1000.00",
+      "duration_minutes": 75,
+      "image": "",
+      "is_active": true,
+      "created_at": "2024-01-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "appointments.service",
+    "pk": 7,
+    "fields": {
+      "name": "Facial Treatment",
+      "category": "skin",
+      "description": "Deep cleansing facial with steaming, exfoliation, extraction, mask, and moisturizing for glowing skin.",
+      "price": "1500.00",
+      "duration_minutes": 75,
+      "image": "",
+      "is_active": true,
+      "created_at": "2024-01-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "appointments.service",
+    "pk": 8,
+    "fields": {
+      "name": "Full Body Massage",
+      "category": "massage",
+      "description": "Therapeutic full-body massage to relieve tension, improve circulation, and promote deep relaxation.",
+      "price": "2000.00",
+      "duration_minutes": 90,
+      "image": "",
+      "is_active": true,
+      "created_at": "2024-01-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "appointments.service",
+    "pk": 9,
+    "fields": {
+      "name": "Bridal Makeup",
+      "category": "makeup",
+      "description": "Complete bridal makeup including foundation, contouring, eye makeup, and setting spray for an all-day flawless look.",
+      "price": "3500.00",
+      "duration_minutes": 120,
+      "image": "",
+      "is_active": true,
+      "created_at": "2024-01-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "appointments.testimonial",
+    "pk": 1,
+    "fields": {
+      "customer_name": "Esther Chebet",
+      "message": "Wasafi is simply the best! I got my hair done for my wedding and it was absolutely perfect. The stylists are so skilled and professional.",
+      "rating": 5,
+      "service": 9,
+      "is_featured": true,
+      "created_at": "2024-01-10T10:00:00Z"
+    }
+  },
+  {
+    "model": "appointments.testimonial",
+    "pk": 2,
+    "fields": {
+      "customer_name": "Grace Rotich",
+      "message": "I love the online booking system! I can book my appointments at any time without having to call or walk in. The service is always top notch.",
+      "rating": 5,
+      "service": 4,
+      "is_featured": true,
+      "created_at": "2024-02-15T11:00:00Z"
+    }
+  },
+  {
+    "model": "appointments.testimonial",
+    "pk": 3,
+    "fields": {
+      "customer_name": "Joy Kiprotich",
+      "message": "The facial treatment left my skin glowing for days. The staff are warm, friendly and very knowledgeable. Highly recommended!",
+      "rating": 5,
+      "service": 7,
+      "is_featured": true,
+      "created_at": "2024-03-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "appointments.testimonial",
+    "pk": 4,
+    "fields": {
+      "customer_name": "Mercy Bett",
+      "message": "Affordable prices, clean environment, and amazing service. Wasafi is my go-to salon every month. The braiding is always neat and long-lasting.",
+      "rating": 4,
+      "service": 2,
+      "is_featured": true,
+      "created_at": "2024-03-20T14:00:00Z"
+    }
+  }
+]
