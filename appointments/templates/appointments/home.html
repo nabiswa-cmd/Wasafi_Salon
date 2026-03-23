@@ -48,7 +48,115 @@
   right: 0;
   animation-delay: 2s;
 }
+.hero-shape {
+  width: 280px;
+  height: 300px;
+  background: linear-gradient(145deg,#e8c5b8,#f5ddd5);
+  border-radius: 60% 40% 50% 50% / 50% 50% 40% 60%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 20px 60px rgba(200,132,122,.25);
+}
 
+.img-fit {
+  max-width: 80%;
+  height: auto;
+}
+
+/* Larger screens */
+@media (min-width: 992px) {
+  .hero-shape {
+    width: 420px;
+    height: 440px;
+  }
+}
+.floating-card {
+  position: absolute;
+  font-size: 12px;
+  padding: 6px 10px;
+}
+.icon-circle {
+  width: 48px;
+  height: 48px;
+  background: var(--wasafi-blush);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.icon-circle img {
+  width: 60%;
+  height: auto;
+  object-fit: contain;
+}
+.service-icon {
+  width: 60px;
+  height: 60px;
+  background: var(--wasafi-blush);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 1.5rem;
+  color: var(--wasafi-rose);
+}
+
+.service-icon img {
+  width: 60%;
+  height: auto;
+  object-fit: contain;
+}
+
+.service-icon i {
+  font-size: 1.5rem;
+}
+
+/* Mobile adjustment */
+@media (max-width: 768px) {
+  .service-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .service-icon i {
+    font-size: 1.2rem;
+  }
+}
+@media (max-width: 768px) {
+  .service-card .card-body {
+    padding: 1.2rem;
+  }
+
+  .service-card h5 {
+    font-size: 1rem;
+  }
+
+  .price-badge {
+    font-size: 0.85rem;
+  }
+
+  .duration-tag {
+    font-size: 0.75rem;
+  }
+}
+/* Bigger on large screens */
+@media (min-width: 992px) {
+  .icon-circle {
+    width: 56px;
+    height: 56px;
+  }
+}
+/* Hide or shrink on small screens */
+@media (max-width: 768px) {
+  .floating-card {
+    transform: scale(0.8);
+  }
+}
 @keyframes floatCard {
   0%   { transform: translateY(0px); }
   50%  { transform: translateY(-10px); }
@@ -94,25 +202,23 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6 d-none d-lg-block">
+      <div class="col-12 col-lg-6 text-center">
         <div class="hero-image-wrap text-center">
           <!-- Decorative hero illustration -->
-          <div style="width:420px;height:440px;background:linear-gradient(145deg,#e8c5b8,#f5ddd5);border-radius:60% 40% 50% 50% / 50% 50% 40% 60%;margin:0 auto;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px rgba(200,132,122,.25)">
-            
-              <img src="{% static 'images/salonicon.png' %}" class="img-fit" alt="salonicons">
-            
-          </div>
+       <div class="hero-shape">
+  <img src="{% static 'images/salonicon.png' %}" class="img-fit" alt="salonicons">
+</div>
           <!-- Floating info cards -->
           <div class="floating-card top-left">
             <div class="d-flex align-items-center gap-2">
               <i class="bi bi-check-circle-fill text-success"></i>
-              <span>Instant Confirmation</span>
+              <span><img style="height: 50px;" src="{%static 'images/iconwasafi.png'%}" alt="">Instant confirmation</span>
             </div>
           </div>
           <div class="floating-card bottom-right">
             <div class="d-flex align-items-center gap-2">
               <i class="bi bi-shield-check-fill" style="color:var(--wasafi-rose)"></i>
-              <span>M-Pesa Payments</span>
+              <span><img style="height: 50px;" src="{%static 'images/mpesaicon.png'%}" alt=""> Payments </span>
             </div>  
           </div>
         </div>
@@ -156,7 +262,9 @@
       </div>
       <div class="col-md-3 col-6">
         <div class="p-3">
-          <div style="width:56px;height:56px;background:var(--wasafi-blush);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.4rem;color:var(--wasafi-rose)"><i class="bi bi-phone"></i></div>
+<div class="icon-circle">
+  <img src="{% static 'images/mpesaicon.png' %}" alt="M-Pesa">
+</div>
           <h6 class="fw-bold mb-1">M-Pesa Payment</h6>
           <p class="small text-muted mb-0">Pay conveniently via M-Pesa — fast, safe, and easy.</p>
         </div>
@@ -197,14 +305,21 @@
       <div class="col-lg-4 col-md-6">
         <div class="card service-card h-100">
           <div class="card-body text-center p-4">
-            <div class="service-icon">
-              {% if service.category == 'hair' %}<i class="bi bi-scissors"></i>
-              {% elif service.category == 'nails' %}<i class="bi bi-heart"></i>
-              {% elif service.category == 'skin' %}<i class="bi bi-droplet"></i>
-              {% elif service.category == 'massage' %}<i class="bi bi-flower1"></i>
-              {% elif service.category == 'makeup' %}<i class="bi bi-stars"></i>
-              {% else %}<i class="bi bi-gem"></i>{% endif %}
-            </div>
+          <div class="service-icon">
+  {% if service.category == 'hair' %}
+    <img src="{% static 'images/hairBraiding.png' %}" alt="Hair">
+  {% elif service.category == 'nails' %}
+    <i class="bi bi-heart"></i>
+  {% elif service.category == 'skin' %}
+    <img src="{% static 'images/Relaxer Treatments.png' %}" alt="Skin">
+  {% elif service.category == 'massage' %}
+    <img src="{% static 'images/message.png' %}" alt="Massage">
+  {% elif service.category == 'makeup' %}
+    <img src="{% static 'images/bridalmecap.png' %}" alt="Makeup">
+  {% else %}
+    <i class="bi bi-gem"></i>
+  {% endif %}
+</div>
             <h5 class="mb-2">{{ service.name }}</h5>
             <p class="text-muted small mb-3">{{ service.description|truncatewords:15 }}</p>
             <div class="d-flex justify-content-center align-items-center gap-2 mb-3">

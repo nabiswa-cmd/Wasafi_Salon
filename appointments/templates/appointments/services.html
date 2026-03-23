@@ -1,9 +1,10 @@
+
 {% extends 'appointments/base.html' %}
 
 {% block title %}Our Services — Wasafi Beauty Salon{% endblock %}
 
 {% block content %}
-
+{%load static %}
 <!-- Page Hero -->
 <section class="page-hero">
   <div class="container">
@@ -52,12 +53,12 @@
             <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.name }}" style="height:200px;object-fit:cover">
           {% else %}
             <div style="height:140px;background:linear-gradient(135deg,var(--wasafi-blush),#ecc5b5);display:flex;align-items:center;justify-content:center;font-size:3rem;color:var(--wasafi-rose)">
-              {% if service.category == 'hair' %}<i class="bi bi-scissors"></i>
+              {% if service.category == 'hair' %}<i class="bi bi-scissors"><img src="{%static 'images/hairBraiding.png'%}" alt=""></i>
               {% elif service.category == 'nails' %}<i class="bi bi-heart"></i>
-              {% elif service.category == 'skin' %}<i class="bi bi-droplet-half"></i>
-              {% elif service.category == 'massage' %}<i class="bi bi-flower1"></i>
-              {% elif service.category == 'makeup' %}<i class="bi bi-stars"></i>
-              {% else %}<i class="bi bi-gem"></i>{% endif %}
+              {% elif service.category == 'skin' %}<i class="bi bi-droplet-half"><img src="{%static 'images/Relaxer Treatments.png'%}" alt=""></i>
+              {% elif service.category == 'massage' %}<i class="bi bi-flower1"><img src="{%static 'images/message.png'%}" alt=""></i>
+              {% elif service.category == 'makeup' %}<i class="bi bi-stars"><img src="{%static 'images/bridalmecap.png'%}" alt=""></i>
+              {% else %}<i class="bi bi-gem"><img src="{%static 'images/Blow.png'%}" alt=""></i>{% endif %}
             </div>
           {% endif %}
           <div class="card-body p-4">
