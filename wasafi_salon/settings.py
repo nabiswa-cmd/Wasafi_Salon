@@ -17,7 +17,7 @@ DATABASES = {
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://wasafi-salon.vercel.app/ ']
+ALLOWED_HOSTS = ['https://wasafi-salon.vercel.app/ ',"*"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
