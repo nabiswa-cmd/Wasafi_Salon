@@ -1,15 +1,19 @@
 """
 Django settings for Wasafi Beauty Salon project.
 """
-
 from pathlib import Path
-import os
-
+import os 
+import dj_database_url
+from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-SECRET_KEY = 'django-insecure-wasafi-salon-change-this-in-production-2024'
+load_dotenv()
+SECRET_KEY = 'django-insecure-wasafi-salon-change-this-in-production-2026'
 #Mpesa integration 
-
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.getenv("DATABASE_URL")
+    )
+}
 
 DEBUG = True
 
@@ -57,24 +61,10 @@ WSGI_APPLICATION = 'wasafi_salon.wsgi.application'
 
 # Database - PostgreSQL (switch to SQLite for quick local dev)
 # To use PostgreSQL, update NAME, USER, PASSWORD, HOST, PORT
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-# PostgreSQL config (uncomment and fill in when ready):
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'wasafi_salon_db',
-#         'USER': 'your_db_user',
-#         'PASSWORD': 'your_db_password',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+#DATABASES = {
+ 
+ ### }
+#}
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},

@@ -235,8 +235,6 @@ def cancel_appointment(request, pk):
     else:
         messages.error(request, 'This appointment cannot be cancelled.')
     return redirect('dashboard')
-
-
 @login_required
 def profile(request):
     profile_obj, created = CustomerProfile.objects.get_or_create(
