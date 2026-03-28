@@ -5,7 +5,7 @@ Built with Django, Bootstrap 5, and PostgreSQL.
 
 ---
 
-## 📁 Project Structure)
+## Project Structure
 
 ### 1. Clone / extract the project
 ```bash
@@ -35,7 +35,7 @@ Admin panel → **http://127.0.0.1:8000/admin**
 ### 4. Run migrations again:
 ```bash
 python manage.py migrate
-python manage.py loaddata appointments/fixtures/initial_data.json
+
 ```
 
 ---
@@ -74,7 +74,6 @@ Log into `/admin` to:
 |---|---|
 | Backend | Python 3.x, Django 4.2 |
 | Frontend | HTML5, Bootstrap 5.3, Bootstrap Icons |
-| Fonts | Google Fonts (Cormorant Garamond + DM Sans) |
 | Database | SQLite (dev) / PostgreSQL (production) |
 | Payments | M-Pesa (integrate via Daraja API) |
 | Notifications | Django messages + Email backend |
