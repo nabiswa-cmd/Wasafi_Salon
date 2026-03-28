@@ -9,18 +9,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
 SECRET_KEY = 'django-insecure-wasafi-salon-change-this-in-production-2026'
 #Mpesa integration 
-#DATABASES = {
- #   'default': dj_database_url.config(
-   #     default=os.getenv("DATABASE_URL")
- #   )
-#}
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv("DATABASE_URL")
+    )
 }
-DEBUG = True
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+    #}
+#}
+DEBUG = False
 SOCIALACCOUNT_LOGIN_ON_GET = True
 ALLOWED_HOSTS = ['https://wasafi-salon.vercel.app/ ',"*"]
 
