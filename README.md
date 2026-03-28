@@ -31,30 +31,8 @@ Admin panel → **http://127.0.0.1:8000/admin**
 
 ---
 
-## 🐘 Switching to PostgreSQL
 
-1. Create the database:
-```sql
-CREATE DATABASE wasafi_salon_db;
-CREATE USER wasafi_user WITH PASSWORD 'your_password';
-GRANT ALL PRIVILEGES ON DATABASE wasafi_salon_db TO wasafi_user;
-```
-
-2. In `wasafi_salon/settings.py`, uncomment the PostgreSQL block and fill in your credentials:
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'wasafi_salon_db',
-        'USER': 'wasafi_user',
-        'PASSWORD': 'your_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-```
-
-3. Run migrations again:
+### 4. Run migrations again:
 ```bash
 python manage.py migrate
 python manage.py loaddata appointments/fixtures/initial_data.json
@@ -62,7 +40,7 @@ python manage.py loaddata appointments/fixtures/initial_data.json
 
 ---
 
-## 🌐 Features
+##  Features
 
 | Feature | Description |
 |---|---|
@@ -102,4 +80,4 @@ Log into `/admin` to:
 | Notifications | Django messages + Email backend |
 | Google Auth | continue with google Email backend |
 ---
-
+visit the site https://wasafi-salon.vercel.app/ 
