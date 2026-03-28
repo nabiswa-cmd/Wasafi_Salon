@@ -44,6 +44,6 @@ class TestimonialAdmin(admin.ModelAdmin):
     list_display = ['customer_name', 'rating', 'is_featured', 'created_at']
     list_editable = ['is_featured']
 
-admin.site.site_header = "Wasafi Beauty Salon - Admin"
+admin.site.site_header = "Wasafi Beauty Salon  Admin"
 admin.site.site_title = "Wasafi Admin"
 admin.site.index_title = "Welcome to Wasafi Salon Management"

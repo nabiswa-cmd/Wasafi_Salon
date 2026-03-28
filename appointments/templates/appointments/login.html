@@ -1,7 +1,9 @@
 {% extends 'appointments/base.html' %}
-{% block title %}Login — Wasafi Beauty Salon{% endblock %}
+{% block title %}Login Wasafi Beauty Salon{% endblock %}
 
+{% load static %}
 {% block content %}
+{% load socialaccount %}
 <section style="background:var(--wasafi-cream);min-height:80vh;display:flex;align-items:center;padding:4rem 0">
   <div class="container">
     <div class="row justify-content-center">
@@ -27,32 +29,80 @@
               <div class="mb-3">
                 <label class="form-label">Username</label>
                 {{ form.username }}
-                {% if form.username.errors %}<div class="text-danger small">{{ form.username.errors }}</div>{% endif %}
+                {% if form.username.errors %}
+                  <div class="text-danger small">{{ form.username.errors }}</div>
+                {% endif %}
               </div>
 
               <div class="mb-4">
                 <label class="form-label">Password</label>
                 {{ form.password }}
-                {% if form.password.errors %}<div class="text-danger small">{{ form.password.errors }}</div>{% endif %}
+                {% if form.password.errors %}
+                  <div class="text-danger small">{{ form.password.errors }}</div>
+                {% endif %}
               </div>
 
-              <div class="d-grid mb-3">
+              <div class="d-grid gap-2 mb-3">
+                <!-- Regular Sign In Button -->
                 <button type="submit" class="btn btn-wasafi py-2">
                   <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
                 </button>
+
+                <!-- OR Divider -->
+                <div class="d-flex align-items-center my-2">
+                  <hr class="flex-grow-1">
+                  <span class="px-2 small text-muted">or</span>
+                  <hr class="flex-grow-1">
+                </div>
+
+                <!-- Google Button -->
+                <a href="{% provider_login_url 'google' %}"  class="btn google-btn py-2">
+                   <i class="bi bi-google me-2"></i>
+                  
+                  Continue with Google
+                </a>
               </div>
             </form>
 
             <div class="text-center">
               <p class="small text-muted mb-0">
                 Don't have an account?
-                <a href="{% url 'register' %}" style="color:var(--wasafi-rose);font-weight:600">Create one free</a>
+                <a href="{% url 'register' %}" style="color:var(--wasafi-rose);font-weight:600">
+                  Create one free
+                </a>
               </p>
             </div>
+
           </div>
         </div>
+
       </div>
     </div>
   </div>
 </section>
+
+<style>
+/* Google button styling */
+.google-btn {
+  background: #4285F4;
+  color: white;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.google-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+</style>
 {% endblock %}
