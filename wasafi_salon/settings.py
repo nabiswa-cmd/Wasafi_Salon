@@ -1,5 +1,5 @@
 """
-Django settings for Wasafi Beauty Salon project.
+Django settings for Wasafi Beauty Salon project ,, welcome
 """
 from pathlib import Path
 import os 
