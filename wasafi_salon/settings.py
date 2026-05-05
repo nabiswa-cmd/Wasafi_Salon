@@ -20,7 +20,7 @@ DATABASES = {
         #'NAME': BASE_DIR / 'db.sqlite3',
     #}
 #}
-DEBUG = True
+DEBUG = False
 SOCIALACCOUNT_LOGIN_ON_GET = True
 ALLOWED_HOSTS = ['https://wasafi-salon.vercel.app/ ',"*"]
 
